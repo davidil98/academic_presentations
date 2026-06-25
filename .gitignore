@@ -1,0 +1,39 @@
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Manim / Manim Slides
+media/
+slides/
+videos/
+presentacion.json
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Datos y figuras generadas
+figures/*.mp4
+figures/*.gif
+figures/*.tmp
+/tmp/
+
+# Entornos virtuales
+.venv/
+env/
+venv/
+
+# Editores
+.idea/
+.vscode/
+*.swp
+*~
+
+# Sistema
+Thumbs.db

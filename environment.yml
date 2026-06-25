@@ -1,0 +1,23 @@
+name: manim
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.11
+  - pip
+  - ffmpeg
+  - pycairo
+  - pango
+  - cairo
+  - pyside6
+  - qt6-multimedia
+  - jupyter
+  - notebook
+  - ipykernel
+  - scipy
+  - pip:
+      - manim>=0.19
+      - "manim-slides[magic]"
+      - opencv-python>=4.0
+      - pillow>=10.0
+      - rdkit>=2024.0
+      - datamol>=0.12
