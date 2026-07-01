@@ -1,0 +1,20 @@
+# Registro de presentaciones del monorepo.
+#
+# El workflow.py lee este archivo para saber qué presentaciones existen.
+# Si no existe, se descubren por convención escaneando presentaciones/*/*.py
+# (cualquier .py directamente bajo una subcarpeta de presentaciones/).
+#
+# Solo se requieren `name` y `file`. Las escenas se autodetectan en cada
+# archivo buscando clases que hereden de Slide / SlidesControl.
+#
+# Para añadir una nueva presentación:
+#   1. Crea la carpeta presentaciones/<nombre>/
+#   2. Añade tu .py con las clases Slide
+#   3. Añade una entrada aquí (opcional si la convención ya la descubre)
+#
+# Para excluir una presentación del auto-descubrimiento, prefija su carpeta
+# con `_` (p.ej. presentaciones/_borrador/).
+
+presentaciones:
+  - name: 2025-david_ICMAB
+    file: presentaciones/2025-david_ICMAB/david_presentation.py
