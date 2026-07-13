@@ -288,28 +288,34 @@ def cmd_export(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Flujo de trabajo Manim Slides (monorepo)",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument(
+    # Parent parser con argumentos compartidos, para que estén disponibles
+    # tanto antes como después del subcomando.
+    parent = argparse.ArgumentParser(add_help=False)
+    parent.add_argument(
         "--file",
         type=str,
         default=None,
         help="Ruta al .py de una presentación (ej. presentaciones/<nombre>/<archivo>.py). "
         "Si se omite, opera sobre todas las del YAML o descubiertas por convención.",
     )
+
+    parser = argparse.ArgumentParser(
+        description="Flujo de trabajo Manim Slides (monorepo)",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p_pres = sub.add_parser("presentations", help="Listar presentaciones registradas")
+    p_pres = sub.add_parser(
+        "presentations", parents=[parent], help="Listar presentaciones registradas"
+    )
     p_pres.set_defaults(func=cmd_presentations)
 
     p_list = sub.add_parser(
-        "list", help="Listar escenas de una o todas las presentaciones"
+        "list", parents=[parent], help="Listar escenas de una o todas las presentaciones"
     )
     p_list.set_defaults(func=cmd_list)
 
-    p_render = sub.add_parser("render-all", help="Renderizar escenas")
+    p_render = sub.add_parser("render-all", parents=[parent], help="Renderizar escenas")
     p_render.add_argument(
         "-q",
         "--quality",
@@ -319,11 +325,15 @@ def main():
     )
     p_render.set_defaults(func=cmd_render_all)
 
-    p_present = sub.add_parser("present", help="Visualizar escenas en el visor")
+    p_present = sub.add_parser(
+        "present", parents=[parent], help="Visualizar escenas en el visor"
+    )
     p_present.add_argument("scenes", nargs="+", help="Nombres de las clases Slide")
     p_present.set_defaults(func=cmd_present)
 
-    p_export = sub.add_parser("export", help="Exportar presentación a un formato")
+    p_export = sub.add_parser(
+        "export", parents=[parent], help="Exportar presentación a un formato"
+    )
     p_export.add_argument(
         "formato",
         choices=["html", "pdf", "pptx", "zip"],
