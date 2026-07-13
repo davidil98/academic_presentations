@@ -4,7 +4,7 @@ Image-heavy introduction with a persistent timeline canvas.
 Each section is a SlidesControl class with title, slide number and a
 horizontal progress timeline that highlight the current section.
 
-Expected images (place in the assets/ folder):
+Expected images (place in the presentaciones/2025-david_ICMAB/assets/ folder):
 
   Section 1 (Who am I):     me.jpg, calisthenics.jpg, cooking.jpg, poetry.jpg
   Section 2 (Roots):        father_lab.jpg, mother_class.jpg, high_school.jpg
@@ -22,6 +22,8 @@ Render:
 from manim import *
 from manim_slides import Slide
 from toolkit import SlidesControl, TITLE_SIZE, NORMAL_SIZE, TINY_SIZE
+import os 
+from pathlib import Path
 
 config.verbosity = "WARNING"
 config.background_color = WHITE
@@ -31,7 +33,18 @@ MathTex.set_default(color=BLACK)
 PRIMARY = BLUE
 ACCENT = TEAL_D
 TIMELINE_COLOR = GREY_B
-ASSETS_DIR = "assets"
+
+def find_project_root(marker):
+    """Sube desde este archivo hasta encontrar una carpeta con nombre `marker`."""
+    start = Path(__file__).resolve().parent
+    for parent in [start, *start.parents]:
+        if (parent / marker).is_dir():
+            return str(parent / marker)
+    raise FileNotFoundError(
+        f"No se encontró '{marker}' partiendo de {start}"
+    )
+
+ASSETS_DIR = find_project_root("assets")
 
 TOTAL_SECTIONS = 7
 SECTION_LABELS = [
@@ -151,9 +164,6 @@ class PortadaIntroduccion(SlidesControl):
     """Slide 1: Who am I? — self introduction, hobbies, motivation."""
 
     def construct(self):
-        setup_canvas(self, "Who am I", 1, 0)
-        self.next_slide()
-
         # TODO: photo + name + brief intro
         # Example:
         #   me = ImageMobject(f"{ASSETS_DIR}/me.jpg").scale_to_fit_height(3)
@@ -161,8 +171,28 @@ class PortadaIntroduccion(SlidesControl):
         #   self.play(FadeIn(me))
         # Speaker: short self introduction, where from
 
+        title = Text("Welcome Presentation", font_size=TITLE_SIZE, weight=BOLD)
+        title.to_edge(UP, buff=0.4).to_edge(LEFT, buff=0.6)
+        num = Text("1").to_corner(DL)
+        self.add_to_canvas(title=title, slide_number=num)
+
+        subtitle = Text("David Ibarra Luna", font_size=NORMAL_SIZE, weight=BOLD)
+        subtitle.next_to(title, DOWN, buff=0.5)
+
+        me = ImageMobject(f"{ASSETS_DIR}/me.jpg").scale_to_fit_height(3)
+        me.to_corner(UR, buff=0.5)
+
+        icmab_logo = ImageMobject(f"{ASSETS_DIR}/icmab_logo.jpg").scale_to_fit_height(0.5)
+        icmab_logo.to_corner(UL, buff=0.5)
+        
+        self.play(Write(title))
+        self.play(Write(subtitle))
+        self.play(FadeIn(me, shift=UP*0.2))
+        self.play(FadeIn(icmab_logo, shift=UP*0.2))
+
         self.next_slide()
-        update_slide_number(self, 2)
+
+        setup_canvas(self, "Who am I", 2, 0)
 
         # TODO: hobbies collage
         # image_collage(self, ["calisthenics.jpg", "cooking.jpg", "poetry.jpg"])
