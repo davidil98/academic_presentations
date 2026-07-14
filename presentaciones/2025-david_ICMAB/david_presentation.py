@@ -213,11 +213,13 @@ class PortadaIntroduccion(SlidesControl):
         
         self.play(FadeIn(breif_intro), DrawBorderThenFill(mty_map))
         self.next_slide()
+        self.play(FadeOut(mty_map))
         image_collage(self, image_names=collage_city_things, replace=False, max_height=3.5)
         self.next_slide()
         self.play(FadeIn(mty_landscape))
         self.next_slide()
-        self.play(*[FadeOut(mob) for mob in self.mobjects if isinstance(mob, ImageMobject)], FadeOut(mty_landscape))
+        self.play(*[FadeOut(mob) for mob in self.mobjects if isinstance(mob, ImageMobject)])
+        self.play(FadeOut(mty_landscape))
 
         # wipe breif_description --> hobbies_txt
         hobbies_txt = Text("Some of my hobbies", font_size=NORMAL_SIZE)
@@ -405,13 +407,13 @@ class Formacion(SlidesControl):
         text_cqd.next_to(self.canvas["title"], DOWN, buff=0.5, aligned_edge=LEFT)
 
         idalia = ImageMobject(f"{ASSETS_DIR}/dra_idalia.jpg").scale_to_fit_height(1.5)
-        idalia.move_to([4.5, 1.2, 0])
+        idalia.next_to(text_cqd, DOWN, buff=0.3).to_edge(RIGHT, buff=0.5)
 
         paper1 = ImageMobject(f"{ASSETS_DIR}/ngqd_cpaper.png").scale_to_fit_height(1.5)
-        paper1.move_to([3.8, -0.8, 0])
+        paper1.next_to(idalia, DOWN, buff=0.2)
 
         paper2 = ImageMobject(f"{ASSETS_DIR}/ngqd_aunp_cpaper_lspr.png").scale_to_fit_height(1.5)
-        paper2.next_to(paper1, RIGHT, buff=0.2)
+        paper2.next_to(paper1, DOWN, buff=0.2)
 
         self.wipe(text_service, text_cqd)
         self.play(
@@ -809,8 +811,8 @@ class Futuro(SlidesControl):
         egofet = ImageMobject(f"{ASSETS_DIR}/egofet_device.jpg").scale_to_fit_height(2.5)
         egofet.move_to([-2.8, 0, 0])
 
-        bcn = ImageMobject(f"{ASSETS_DIR}/david_bcn.JPG").scale(2)
-        bcn.move_to([2.8, 0, 0])
+        bcn = ImageMobject(f"{ASSETS_DIR}/david_bcn.JPG").scale_to_fit_height(3.0)
+        bcn.to_edge(RIGHT, buff=1)
 
         self.play(
             FadeIn(text_future),
