@@ -16,5 +16,5 @@
 # con `_` (p.ej. presentaciones/_borrador/).
 
 presentaciones:
-  - name: 2025-david_ICMAB
-    file: presentaciones/2025-david_ICMAB/david_presentation.py
+  - name: 2026-david_ICMAB
+    file: presentaciones/2026-david_ICMAB/david_presentation.py
