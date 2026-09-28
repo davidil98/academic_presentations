@@ -1,7 +1,7 @@
 # Reunión Septiembre 2026
 
 > **Fecha:** Lunes, 29 de septiembre de 2026  
-> **Investigador:** David Ibarra Luna  
+David Ibarra Luna  
 > **Proyecto:** EGOFETs - ICMAB-CSIC
 
 ---
@@ -11,15 +11,15 @@
 ### A. Fotolitografía Monocapa - Defectos Observados
 
 **Protocolo actual:**
-- Spin coating de OSC (semiconductor orgánico) sobre sustrato Kapton
-- Exposición UV a través de máscara
-- Revelado con solvente apropiado
+- Spin coating monocapa de fotoresina Shipley S1813
+- Fotolitografía con Microwriter, revelado y evaporación
+- Lift-Off con acetona, IPA con ultrasonido 15 min. Remoción manual con acetona y algodón.
 - Caracterización eléctrica
 
 **Defectos detectados en monocapa:**
 - Inconsistencia en el espesor de la capa
-- Problemas de adhesión al sustrato
-- Variabilidad en las características eléctricas
+- Problemas de remoción en el canal entre D-S
+- La remoción con algodón es propensa a dañar el dispositivo
 
 **Galería de fotos:**
 
@@ -34,6 +34,38 @@
 - `docs/OFETs Fabrication Protocol.pdf`
 - `docs/Deposició SC_MJ.docx`
 - `docs/Preparació SC_MJ.docx`
+
+---
+
+### A2. Fotolitografía Bicapa (PMGI SF5 / S1813) - Ventajas
+
+**Protocolo bicapa:**
+- Capa inferior: PMGI SF5 (3000 RPM, prebake 170 °C / 5 min)
+- Capa superior: Shipley S1813 (5000 RPM, soft bake 75 °C / 1 min)
+- Revelado en MF-319 (60–90 s) genera *undercut* controlado
+- Lift-Off con DMSO a 60 °C (1-2 h, sin ultrasonido)
+
+**Resultados vs. monocapa:**
+
+| Parámetro | Monocapa (S1813) | Bicapa (PMGI + S1813) |
+|-----------|-------------------|------------------------|
+| Dispositivos con Au residual en canal | 12/12 | 5/12 |
+| Perfil de pared lateral | Vertical | *Undercut* (re-entrante) |
+| Remoción manual con algodón | Necesaria, alto riesgo de daño | Resistente, removable sin daño |
+| Riesgo de daño al patrón | Alto | Bajo |
+
+**Ventajas clave:**
+- El perfil *undercut* rompe la continuidad del metal en los bordes, evitando puentes
+- El grabado bicapa es más resistente: es posible remover restos con algodón **sin dañar el patrón**
+- DMSO a 60 °C penetra mejor que acetona bajo el metal (menor tensión superficial, sin ultrasonido)
+- Compatible con sustratos Kapton
+
+**Márgenes de optimización pendientes:**
+- Temperatura de prebake PMGI (150–190 °C) → controla tasa de *undercut*
+- RPM del spin coating PMGI → controla espesor de capa inferior
+- Tiempo de exposición a DMSO → acelerar lift-off sin dañar electrodos
+
+**Documentación:** `docs/photolito_protocol/bilayer_protocol.tex`
 
 ---
 
@@ -304,7 +336,7 @@ Herramienta desktop standalone con NiceGUI que permite:
 
 1. Completar solicitud Ramón Areces (antes del 2 de octubre)
 2. Obtener equivalencia de nota media (URGENTE para FPU)
-3. Continuar optimización de fotolitografía monocapa
+3. Optimizar fotolitografía bicapa (temperatura PMGI, RPM, tiempo DMSO)
 4. Expandir pruebas de deposición con BAMS controller
 5. Preparar propuesta detallada de proyecto
 
