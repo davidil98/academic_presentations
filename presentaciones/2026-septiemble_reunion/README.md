@@ -23,11 +23,17 @@ David Ibarra Luna
 
 **Galería de fotos:**
 
-![Bicapa reciente - Septiembre 2026](assets/photos/image_0888.jpg)
-*Dispositivos bicapa - 18/09/2026*
+![Residuo de oro en canal - Septiembre 2026](assets/photos/icn2/image_0708.jpg)
+*Residuo de Au en canal Source-Drain después de lift-off monocapa*
 
-![Pruebas agosto - Julio 2026](assets/photos/image_0172.jpg)
-*Pruebas de fotolitografía - 28/07/2026*
+![Limpieza manual con algodón](assets/photos/icn2/image_0721.jpg)
+*Remoción manual de residuos con algodón - puede dañar el patrón*
+
+![Pruebas julio 2026](assets/photos/julio/image_0234.jpg)
+*Pruebas de fotolitografía monocapa - Julio 2026*
+
+![Pruebas julio 2026](assets/photos/julio/image_0239.jpg)
+*Dispositivos monocapa - Julio 2026*
 
 **Documentación de referencia:**
 - `docs/OSC Ink Fabrication Protocol.docx`
@@ -67,27 +73,68 @@ David Ibarra Luna
 
 **Documentación:** `docs/photolito_protocol/bilayer_protocol.tex`
 
+**Galería de fotos:**
+
+![Dispositivos bicapa - Septiembre 2026](assets/photos/bilayer/image_0888.jpg)
+*Dispositivos bicapa recientes - 18/09/2026*
+
+![Dispositivos bicapa - Septiembre 2026](assets/photos/bilayer/image_0900.jpg)
+*Resultado lift-off con DMSO - canales limpios sin residuos*
+
+![Dispositivos bicapa - Septiembre 2026](assets/photos/bilayer/image_0903.jpg)
+*Electrodos definidos con perfil undercut*
+
+![Dispositivos bicapa - Septiembre 2026](assets/photos/bilayer/image_0904.jpg)
+*Patrón de electrodos después de evaporación y lift-off*
+
+![Dispositivos bicapa - Septiembre 2026](assets/photos/bilayer/IMG_20260918_132307420.jpg)
+*Vista general de dispositivos bicapa - 18/09/2026*
+
 ---
 
 ### B. BAMS Controller - Deposition Tests
 
-**Arquitectura del sistema:**
+**¿Qué hace?**
+Controla el motor stepper del sistema de deposición BAMS (NSC-A1, Newmark Systems) para mover la fuente de material durante la evaporación. Permite programar secuencias de deposición con velocidad y aceleración precisas, reemplazando el control manual.
 
-![Arquitectura BAMS Controller](assets/diagrams/bams_architecture.html)
+**¿Cómo funciona?**
+1. Se conecta al motor NSC-A1 por USB
+2. Envía comandos de movimiento (adelante/atrás, velocidad, pasos)
+3. El motor mueve la fuente de material sobre el sustrato
+4. Permite secuencias programables para deposición uniforme
 
-*Ver diagrama interactivo: [bams_architecture.html](assets/diagrams/bams_architecture.html)*
+**¿Qué necesita para funcionar?**
+- Computadora con puerto USB
+- Python 3.8+
+- Librería `pyusb` (comunicación USB sin drivers propietarios)
+- Cable USB al motor NSC-A1
+- Handshake específico (0x40/0x02) para inicializar comunicación
 
-**Características principales:**
-- Driver Python puro para NSC-A1 (Newmark Systems)
-- Comunicación USB bulk sin DLL de vendor
-- Handshake vendor específico (0x40/0x02) crítico para funcionamiento
-- Context manager con cleanup automático
-- Soporte completo para firmware V241BL
+**Opciones de implementación en el laboratorio:**
 
-**Pruebas de deposición realizadas:**
-- Control del motor stepper para movimiento preciso
-- Secuencias de deposición programables
-- Integración con sistema de caracterización
+| Opción | Ventajas | Desventajas |
+|--------|----------|-------------|
+| **PC dedicada** (nueva) | Máximo rendimiento, fácil mantenimiento | Costo elevado (~500-800€) |
+| **Raspberry Pi 4** | Bajo costo (~80€), compacto, bajo consumo | Requiere configuración Linux, USB puede ser inestable |
+| **PC antigua con Linux** | Reutiliza hardware existente, gratuito | Puede requerir actualización de puertos USB |
+
+**Recomendación:** Raspberry Pi 4 con Ubuntu Server + interfaz web (NiceGUI) para control remoto desde cualquier dispositivo del laboratorio.
+
+**Diagrama de arquitectura:**
+[Ver diagrama interactivo](assets/diagrams/bams_architecture.html) (abrir en navegador)
+
+**Interfaz gráfica:**
+
+![BAMS Controller GUI](assets/photos/bams_gui.png)
+*Interfaz PyQt6 del controlador NSC-A1 - control de conexión, parámetros y movimiento*
+
+**Video de demostración:**
+
+<video controls width="100%">
+  <source src="assets/photos/VID-20260827.mp4" type="video/mp4">
+  Tu navegador no soporta el elemento de video.
+</video>
+*Demostración del controlador en operación - 27/08/2026*
 
 **Resultados eléctricos:**
 
@@ -132,6 +179,11 @@ Herramienta desktop standalone con NiceGUI que permite:
 - Windows: `.exe` standalone
 - Cross-platform: Python + NiceGUI
 
+**Interfaz gráfica:**
+
+![HDF5 Manager GUI](assets/photos/hdf5_managerGUI.png)
+*Interfaz de HDF5 Manager mostrando estructura de archivo, atributos y vista previa de datasets*
+
 **Repositorio:** `/home/dibarra/Documentos/icmab/HDF5-Manager`
 
 ---
@@ -140,11 +192,11 @@ Herramienta desktop standalone con NiceGUI que permite:
 
 ### Resumen Comparativo
 
-| Beca | Plazo | Dotación | Duración | Prioridad |
-|------|-------|----------|----------|-----------|
-| **Ramón Areces** | 2 sep - 2 oct 2026 | 35.000€/año + extras | 4 años | Alta |
-| **FPU 2026** | 20 oct - 12 nov 2026 | ~1.200-1.500€/mes | 4 años | Alta |
-| **La Caixa INPhINIT** | Ene-Feb 2027 | 35.800€/año | 4 años | Alta |
+| Beca | Plazo | Dotación | Duración |
+|------|-------|----------|----------|
+| **Ramón Areces** | 2 sep - 2 oct 2026 | 35.000€/año + extras | 4 años |
+| **FPU 2026** | 20 oct - 12 nov 2026 | ~1.200-1.500€/mes | 4 años |
+| **La Caixa INPhINIT** | Ene-Feb 2027 | 35.800€/año | 4 años |
 
 ---
 
@@ -266,7 +318,6 @@ Herramienta desktop standalone con NiceGUI que permite:
 
 ## 3. Propuesta de Proyecto
 
-### Título Tentativo
 **"Electrodos Orgánicos para Transistores Electroquímicos (EGOFETs): Desarrollo y Aplicaciones en Biosensado"**
 
 ### Objetivos Generales
@@ -279,28 +330,21 @@ Herramienta desktop standalone con NiceGUI que permite:
 ### Metodología
 
 **Fase 1: Optimización de fabricación**
-- Pruebas de fotolitografía monocapa vs bicapa
-- Control de variables: espesor, exposición, revelado
-- Characterización morfológica (AFM, SEM)
 
 **Fase 2: Caracterización eléctrica**
-- Medición de transfer curves (V_th, movilidad)
-- Medición de output curves (regiones lineal/saturación)
-- Estabilidad y reproducibilidad
+
 
 **Fase 3: Aplicaciones en biosensado**
-- Funcionalización de superficie
-- Detección de analitos biológicos
-- Integración con sistemas de lectura
+
 
 ### Timeline Tentativo
 
 | Mes | Actividad |
 |-----|-----------|
-| 1-6 | Optimización de fabricación |
-| 7-12 | Caracterización eléctrica completa |
-| 13-18 | Aplicaciones en biosensado |
-| 19-24 | Redacción de tesis |
+| 1-6 | |
+| 7-12 |  |
+| 13-18 |  |
+| 19-24 |  |
 
 ### Impacto Esperado
 
